@@ -1,0 +1,68 @@
+#include "stringbad.hh"
+#include <cstring>
+
+using std::cout;
+
+void pass_by_ref(StringBad &); // 引用
+void pass_by_value(StringBad); // 值传递
+
+// 构造函数，传入c风格的字符串
+StringBad::StringBad(const char *s) {
+  len = std::strlen(s);
+  str = new char[len + 1]; // 分配内存;
+  std::strcpy(str, s);     // 初始化
+  // str = s 我们知道字符串变量只保存了字符串的地址
+  // str=s的方式相当于直接拷贝了地址
+  num_string++;
+  std::cout << num_string << ": \" " << str << " \" obeject created \n ";
+}
+
+StringBad::StringBad() {
+  len = 4;
+  str = new char[4];
+  std::strcpy(str, "C++");
+  std::cout << num_string << ": \" " << str << " \" obeject created \n ";
+}
+
+StringBad::~StringBad() {
+  std::cout << "\"" << str << "\"object delete";
+  --num_string;
+  std::cout << num_string << "left\n";
+  delete[] str;
+}
+
+std::ostream &operator<<(std::ostream &os, const StringBad &s) {
+  os << s.str;
+  return os;
+}
+
+void pass_by_ref(StringBad &s) {
+  cout << "引用传值\n";
+  cout << "\"" << s << "\"\n";
+}
+void pass_by_value(StringBad s) {
+  cout << "拷贝传值\n";
+  cout << "\"" << s << "\"\n";
+}
+
+int main() {
+  using std::endl;
+  {
+    StringBad headline1("Celery");
+    StringBad headline2("Lettuce");
+    StringBad sport("Spinach");
+    cout << "headline1:" << headline1 << endl;
+    cout << "headline2:" << headline2 << endl;
+    cout << "sport: " << sport << endl;
+    pass_by_ref(headline1);
+    cout << "headline1:" << headline1 << endl;
+    pass_by_value(headline2);
+    cout << "headline2:" << headline2 << endl;
+    cout << "赋值: \n";
+    StringBad sailor = sport;
+    cout << "sailor: " << sailor << endl;
+    StringBad knot;
+    knot = headline1;
+  }
+  return 0;
+}
