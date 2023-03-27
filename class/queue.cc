@@ -21,6 +21,7 @@ bool Queue::enqueu(const Item &item) {
   return true;
 }
 
+// const 不能对成员变量修改？
 bool Queue::dequeue(Item &item) {
   if (empty()) {
     return false;
@@ -39,11 +40,7 @@ bool Queue::dequeue(Item &item) {
   return true;
 }
 
-bool Queue::empty() {
-  if (front == nullptr) {
-    return true;
-  }
-}
+bool Queue::empty() const { return items == 0; }
 
 // 删除链表
 Queue::~Queue() {
@@ -55,4 +52,4 @@ Queue::~Queue() {
   }
 }
 
-bool Queue::full() { return items == q_size; }
+bool Queue::full() const { return items == q_size; }
