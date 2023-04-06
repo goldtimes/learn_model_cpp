@@ -84,3 +84,7 @@ ARM,DSP一般也为小端，ARM可以由硬件来决定是大端还是小端
     int data_len;
     char data[];
   }; //sizeof(Mydata) == 4;  
+
+# UDP
+目标：
+  需要掌握UDP和TCP的区别
