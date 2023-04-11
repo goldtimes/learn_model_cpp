@@ -96,3 +96,55 @@ ARM,DSP一般也为小端，ARM可以由硬件来决定是大端还是小端
   进程上下文、代码区、数据区、堆区、栈区、内存信息、文件描述符、信号处理函数、进程优先级、
   当前工作目录、根目录等等等。
   通过PID来区分子进程和父进程。子进程对父进程的存储空间拷贝，而不是共享。
+  ```C++
+  #include <>
+  int main()
+  {
+    while(1)
+    {
+      int sockfd = socket(); // 属于内核对象，对内核对象进行引用次数+1
+      int connect_sockfd = accept();
+      if(fork() == 0) //子进程执行的代码
+      {
+        // 因为子进程对sockfd复制了，引用计数+1。此时的引用计数为2。
+        // 那么如果先在这里关闭一次，父进程关闭一次。这个socket对象才真正的被释放了。
+        close(sockfd); 
+        fun();
+        close(connect_sockfd);// 同理
+        exit(0);
+      }
+      close(connect_sockfd); // 同理
+    }
+    close(sockfd);
+    return 0;
+  }
+  ```
+
+# 多线程服务器
+## 工作模型
+```c++
+#include <>
+
+int main()
+{
+  int sockfd = socket();
+  bind(sockfd);
+  liste(sockfd);
+  while(1)
+  {
+    int conn_fd = accept();
+    pthread_t tid;
+    pthread_create(&tid, nullptr, client_fun, (void*) conn_fd);
+    pthread_deatch(tid);
+  }
+  close(sockfd);
+  return 0;
+}
+
+void * client_fun(void *argc)
+{
+  int conn_fd = (int) argv;
+  func(); // 真正处理服务器请求的地方
+  close(connfd);
+}
+```
