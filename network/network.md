@@ -161,3 +161,29 @@ void * client_fun(void *argc)
 * TCP同时处理多个套接字，既要监听套接字，又要处理已连接的套接字
 * 服务器既要处理TCP，又要处理UDP
 * 服务器要处理多个服务或者协议
+
+## selectI/O多路复用的服务器
+
+## pollI/O多路复用的服务器
+* linux系统write函数
+```c++
+// fd为文件描述符(套接字、磁盘)
+// buf 数据缓冲区
+// count 写的数据个数
+// return 写入的字节数，发生错误的时候为-1，写入errno;
+ssize_t write(int fd, const void* buf, size_t count);
+```
+* linux系统read函数
+```c++
+// 函数返回实际读取到的字节数，如果返回0，则到达文件尾部或者没有数据。
+// 返回值可能小于count(想要读取的字节数)
+  // * 在读取count个字节之前，就达到文件末尾
+// 网络套接字，返回值可能小于count.
+// 阻塞： fd文件描述符中的字节比如是50个字节，但是count指定了100个字节(想要的)，那么有可能阻塞
+// 常规文件不会阻塞，文件只有10个字节，但是我想要100.这种情况不会阻塞，读到多少就是多少。
+ssize_t read(int fd, const void* buf, size_t count);
+
+```
+## epoll I/O多路复用的服务器
+
+
