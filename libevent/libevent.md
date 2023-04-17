@@ -15,3 +15,22 @@ read函数也称为应用程序的回调函数。
 理解这个模型可以用生活中的例子情况。
 普通函数调用的情况就是： 
 reactor的模式就是: 去面试，然后面试官是有你的电话号码的.面试完，等待结果出来。但是你不用一直等待，因为结果出来的时候，你就可以接收到HR的电话通知。 电话是不是可以看做一个回调函数呢？
+
+## 使用Libevent
+下载
+配置 
+```
+     cd libevent-2.1.12-stable/
+     ./configure --prefix=/opt/libevent
+```
+--prefix=/opt/libevent 将头文件和动态库放在了/opt/libevent目录下
+但是我们默认的动态库连接是在/usr/local/lib中，所以可以创建软链接
+需要创建这两个软链接，否则编译会出错
+```
+sudo ln -s /opt/libevent/lib/libevent.so /usr/local/lib/libevent.so 
+sudo ln -s /opt/libevent/lib/libevent-2.1.so.7 /usr/local/lib/libevent-2.1.so.7 
+```
+编译
+```
+ g++ event.cc -o event -I /opt/libevent/include/ -L /opt/libevent/lib/ -levent
+```
