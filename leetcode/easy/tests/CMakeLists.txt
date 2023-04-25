@@ -1,0 +1,14 @@
+set(gtest_build_include_dirs
+  "${gtest_SOURCE_DIR}/include"
+  "${gtest_SOURCE_DIR}")
+include_directories(${gtest_build_include_dirs})
+add_executable(
+    test_add
+    test_add.cc
+    )
+target_link_libraries(
+    test_add
+        GTest::gtest_main
+        )
+include(GoogleTest)
+gtest_discover_tests(test_add)
